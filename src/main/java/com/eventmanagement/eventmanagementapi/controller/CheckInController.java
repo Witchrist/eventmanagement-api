@@ -1,6 +1,7 @@
 package com.eventmanagement.eventmanagementapi.controller;
 
 import com.eventmanagement.eventmanagementapi.controller.exceptions.AlreadyCheckInException;
+import com.eventmanagement.eventmanagementapi.controller.exceptions.NotCheckInException;
 import com.eventmanagement.eventmanagementapi.entities.Participant;
 import com.eventmanagement.eventmanagementapi.repositories.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,23 @@ public class CheckInController {
 
             participant.get().setCheckedIn(true);
             participantRepository.save(participant.get());
+        }
+
+        return ResponseEntity.ok(assembler.toFullResource(participant.get()));
+    }
+
+    @PostMapping("participants/checkout/{id}")
+    public ResponseEntity<PersistentEntityResource> checkOut(@PathVariable Long id, PersistentEntityResourceAssembler assembler){
+
+        Optional<Participant> participant = participantRepository.findById(id);
+
+        if(participant.isPresent()){
+            if(participant.get().getCheckedIn()){
+                participant.get().setCheckedIn(false);
+                participantRepository.save(participant.get());
+            } else {
+                throw new NotCheckInException();
+            }
         }
 
         return ResponseEntity.ok(assembler.toFullResource(participant.get()));
