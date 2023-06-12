@@ -7,6 +7,6 @@ import org.springframework.data.rest.core.config.Projection;
 @Projection(name = "virtualProjection", types = {Venue.class})
 public interface StreetAdressProjection {
 
-    @Value("#{target.streetAdress} #{target.streetAdress2}")
+    @Value("#{target.streetAddress} #{target.streetAddress2}")
     String getCompleteVenueAdress();
 }
