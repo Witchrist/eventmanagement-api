@@ -39,6 +39,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.PUT,"/events/**").hasAnyRole( "ADMIN")
                 .requestMatchers(HttpMethod.PATCH,"/events/**").hasAnyRole( "ADMIN");
 
+        http.csrf().disable();
+
         return http.build();
     }
 }
