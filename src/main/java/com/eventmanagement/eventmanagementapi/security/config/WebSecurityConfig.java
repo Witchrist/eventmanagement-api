@@ -3,6 +3,7 @@ package com.eventmanagement.eventmanagementapi.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+//@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     @Bean
@@ -37,7 +39,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET,"/events/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers(HttpMethod.POST,"/events").hasAnyRole( "ADMIN")
                 .requestMatchers(HttpMethod.PUT,"/events/**").hasAnyRole( "ADMIN")
-                .requestMatchers(HttpMethod.PATCH,"/events/**").hasAnyRole( "ADMIN");
+                .requestMatchers(HttpMethod.PATCH,"/events/**").hasAnyRole( "ADMIN")
+                .requestMatchers(HttpMethod.DELETE,"/events/**").hasAnyRole( "ADMIN");
 
         http.csrf().disable();
 

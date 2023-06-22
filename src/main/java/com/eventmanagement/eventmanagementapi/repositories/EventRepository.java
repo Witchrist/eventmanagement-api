@@ -5,6 +5,7 @@ import com.eventmanagement.eventmanagementapi.entities.projections.PartialEventP
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Optional;
 
@@ -12,4 +13,8 @@ import java.util.Optional;
 public interface EventRepository  extends JpaRepository<Event, Long> {
 
     Optional<Event> findById(@Param("resourceId") Long id);
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    void deleteById(Long id);
 }
